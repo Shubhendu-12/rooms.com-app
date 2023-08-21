@@ -1,12 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
+  const [credentials, setCredentials] = useState({email:"", password:""});
+
+  const handleSubmit = async(e) =>{
+     e.preventDefault();
+     try {
+      const {email, password} = credentials;
+      const response = await axios.post('http://localhost:4000/login',{
+       email,
+       password
+      })
+      const json = await response.json();
+      console.log(json);
+      alert("Login successful")
+     } catch (error) { 
+      alert("Login with correct credentials")
+     }
+    
+
+  }
+
+  const onChange = (e) =>{
+   setCredentials({...credentials,[e.target.name]:e.target.value});
+  };
   return (
     <>
       <div className="flex items-center justify-center mt-20">
         <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-          <form className="space-y-6" action="#">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <h5 className="text-xl font-medium text-gray-900 dark:text-white">
               Log in to our platform
             </h5>
@@ -24,6 +49,7 @@ const Login = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="name@company.com"
                 required
+                onChange={onChange}
               />
             </div>
             <div>
@@ -40,6 +66,7 @@ const Login = () => {
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
+                onChange={onChange}
               />
             </div>
             {/* <div className="flex items-start">

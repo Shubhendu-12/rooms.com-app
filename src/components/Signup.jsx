@@ -8,12 +8,17 @@ const Signup = () => {
 
   const handleSubmit =async(e)=> {
     e.preventDefault();
-    const {name,email,password} = credentials;
-  const response = await axios.post('http://localhost:4000/signup',{
-    name,
-    email,
-    password
-  })
+    try {
+        const {name,email,password} = credentials;
+        const response = await axios.post('http://localhost:4000/signup',{
+          name,
+          email,
+          password
+        })
+    } catch (error) {
+        console.log("Register with correct credentials");
+    }
+ 
  }
 
   const onChange = (e)=>{
