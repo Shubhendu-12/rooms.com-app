@@ -1,26 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({email:"", password:""});
+  const navigate = useNavigate();
+  var redirect = false;
 
   const handleSubmit = async(e) =>{
      e.preventDefault();
      try {
       const {email, password} = credentials;
-      const response = await axios.post('http://localhost:4000/login',{
+      const response = await axios.post('/login',{
        email,
        password
       })
-      const json = await response.json();
-      console.log(json);
+      // const json = await response.json();
+      // console.log(json);
       alert("Login successful")
+      redirect = true;
      } catch (error) { 
       alert("Login with correct credentials")
      }
-    
+    if(redirect){
+      navigate("/");
+    }
 
   }
 
